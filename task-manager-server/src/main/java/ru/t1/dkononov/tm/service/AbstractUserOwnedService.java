@@ -15,7 +15,6 @@ import ru.t1.dkononov.tm.exception.field.UserIdEmptyException;
 import ru.t1.dkononov.tm.model.AbstractUserOwnedModel;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -101,7 +100,7 @@ public abstract class AbstractUserOwnedService<M extends AbstractUserOwnedModel,
         @Nullable final M result;
         try {
             @NotNull final IUserOwnedRepository<M> repository = getRepository(connection);
-            result = repository.add(userId,model);
+            result = repository.add(userId, model);
             connection.commit();
         } catch (@NotNull final Exception e) {
             connection.rollback();
@@ -220,7 +219,7 @@ public abstract class AbstractUserOwnedService<M extends AbstractUserOwnedModel,
         @Nullable final M result;
         try {
             @NotNull final IUserOwnedRepository<M> repository = getRepository(connection);
-            result = repository.remove(userId,model);
+            result = repository.remove(userId, model);
             connection.commit();
         } catch (@NotNull final Exception e) {
             connection.rollback();

@@ -1,19 +1,14 @@
 package ru.t1.dkononov.tm.service;
 
 
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.t1.dkononov.tm.api.repository.IProjectRepository;
 import ru.t1.dkononov.tm.api.repository.ITaskRepository;
-import ru.t1.dkononov.tm.api.repository.IUserOwnedRepository;
 import ru.t1.dkononov.tm.api.services.IConnectionService;
 import ru.t1.dkononov.tm.api.services.ITaskService;
 import ru.t1.dkononov.tm.enumerated.Status;
-import ru.t1.dkononov.tm.exception.AbstractException;
 import ru.t1.dkononov.tm.exception.field.*;
 import ru.t1.dkononov.tm.model.Task;
-import ru.t1.dkononov.tm.repository.ProjectRepository;
 import ru.t1.dkononov.tm.repository.TaskRepository;
 
 import java.sql.Connection;
@@ -54,7 +49,7 @@ public final class TaskService extends AbstractUserOwnedService<Task, ITaskRepos
         @Nullable final Task task;
         try {
             @NotNull final ITaskRepository repository = getRepository(connection);
-            task = repository.create(userId,name, description);
+            task = repository.create(userId, name, description);
             connection.commit();
         } catch (@NotNull final Exception e) {
             connection.rollback();
@@ -214,7 +209,7 @@ public final class TaskService extends AbstractUserOwnedService<Task, ITaskRepos
         @Nullable final Task task;
         try {
             @NotNull final ITaskRepository repository = getRepository(connection);
-            task = repository.findTaskIdByProjectId(userId, taskId,projectId);
+            task = repository.findTaskIdByProjectId(userId, taskId, projectId);
             if (task == null) throw new TaskIdEmptyException();
             task.setProjectId(projectId);
             connection.commit();

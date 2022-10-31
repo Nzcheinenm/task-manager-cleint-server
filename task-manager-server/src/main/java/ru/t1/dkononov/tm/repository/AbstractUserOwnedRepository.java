@@ -4,15 +4,16 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.t1.dkononov.tm.api.repository.IUserOwnedRepository;
-import ru.t1.dkononov.tm.api.services.IConnectionService;
 import ru.t1.dkononov.tm.exception.field.UserIdEmptyException;
 import ru.t1.dkononov.tm.model.AbstractUserOwnedModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractUserOwnedRepository<M extends AbstractUserOwnedModel>
         extends AbstractRepository<M> implements IUserOwnedRepository<M> {
@@ -30,9 +31,9 @@ public abstract class AbstractUserOwnedRepository<M extends AbstractUserOwnedMod
     @SneakyThrows
     public List<M> findAll(@Nullable final String userId) {
         @NotNull final List<M> result = new ArrayList<>();
-        @NotNull final String sql = String.format("SELECT * FROM %s WHERE user_id = ?",getTableName());
+        @NotNull final String sql = String.format("SELECT * FROM %s WHERE user_id = ?", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,userId);
+            statement.setString(1, userId);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             while (rowSet.next())
                 result.add(fetch(rowSet));
@@ -45,9 +46,9 @@ public abstract class AbstractUserOwnedRepository<M extends AbstractUserOwnedMod
     @SneakyThrows
     public List<M> findAll(@Nullable final String userId, @Nullable final Comparator<M> comparator) {
         @NotNull final List<M> result = new ArrayList<>();
-        @NotNull final String sql = String.format("SELECT * FROM %s WHERE user_id = ? ORDER BY %s",getTableName(),getSortType(comparator));
+        @NotNull final String sql = String.format("SELECT * FROM %s WHERE user_id = ? ORDER BY %s", getTableName(), getSortType(comparator));
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,userId);
+            statement.setString(1, userId);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             while (rowSet.next()) result.add(fetch(rowSet));
         }
@@ -89,8 +90,8 @@ public abstract class AbstractUserOwnedRepository<M extends AbstractUserOwnedMod
     ) {
         @NotNull final String sql = String.format("SELECT * FROM %s WHERE id = ? AND user_id LIMIT 1", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,id);
-            statement.setString(2,userId);
+            statement.setString(1, id);
+            statement.setString(2, userId);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             if (!rowSet.next()) return null;
             return fetch(rowSet);

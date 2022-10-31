@@ -29,6 +29,6 @@ public interface ITaskService extends IUserOwnedService<Task> {
 
     Task changeTaskStatusByIndex(@Nullable String userId, @Nullable Integer index, @Nullable Status status) throws AbstractException, Exception;
 
-    void updateProjectIdById(@NotNull String userId,@Nullable String taskId, @Nullable String projectId) throws Exception;
+    void updateProjectIdById(@NotNull String userId, @Nullable String taskId, @Nullable String projectId) throws Exception;
 
 }

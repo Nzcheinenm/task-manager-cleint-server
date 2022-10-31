@@ -10,12 +10,11 @@ import ru.t1.dkononov.tm.api.services.IConnectionService;
 import ru.t1.dkononov.tm.exception.entity.ProjectNotFoundException;
 import ru.t1.dkononov.tm.exception.field.UserIdEmptyException;
 import ru.t1.dkononov.tm.marker.DataCategory;
-import ru.t1.dkononov.tm.model.Session;
 import ru.t1.dkononov.tm.service.ConnectionService;
 import ru.t1.dkononov.tm.service.PropertyService;
-import ru.t1.dkononov.tm.service.SessionService;
 
-import static ru.t1.dkononov.tm.constant.TestData.*;
+import static ru.t1.dkononov.tm.constant.TestData.SESSION;
+import static ru.t1.dkononov.tm.constant.TestData.USER1;
 
 @Category(DataCategory.class)
 public class SessionRepositoryTest {
@@ -28,7 +27,7 @@ public class SessionRepositoryTest {
 
     @Before
     public void before() throws UserIdEmptyException, ProjectNotFoundException {
-        repository.add(USER1.getId(),SESSION);
+        repository.add(USER1.getId(), SESSION);
     }
 
     @After
@@ -48,7 +47,7 @@ public class SessionRepositoryTest {
 
     @Test
     public void createByUserId() {
-        Assert.assertEquals(SESSION.getUserId(),USER1.getId());
+        Assert.assertEquals(SESSION.getUserId(), USER1.getId());
     }
 
     @Test
@@ -59,7 +58,7 @@ public class SessionRepositoryTest {
 
     @Test
     public void findByNullId() {
-        Assert.assertNull(repository.findById(USER1.getId(),null));
+        Assert.assertNull(repository.findById(USER1.getId(), null));
     }
 
 }

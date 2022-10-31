@@ -10,7 +10,8 @@ import java.sql.DriverManager;
 
 public class ConnectionService implements IConnectionService {
 
-    @NotNull final IDatabaseProperty databaseProperty;
+    @NotNull
+    final IDatabaseProperty databaseProperty;
 
     public ConnectionService(@NotNull final IDatabaseProperty databaseProperty) {
         this.databaseProperty = databaseProperty;
@@ -23,7 +24,7 @@ public class ConnectionService implements IConnectionService {
         @NotNull final String username = databaseProperty.getDatabaseUser();
         @NotNull final String password = databaseProperty.getDatabasePassword();
         @NotNull final String url = databaseProperty.getDatabaseUrl();
-        @NotNull final Connection connection = DriverManager.getConnection(url,username,password);
+        @NotNull final Connection connection = DriverManager.getConnection(url, username, password);
         connection.setAutoCommit(false);
         return connection;
     }

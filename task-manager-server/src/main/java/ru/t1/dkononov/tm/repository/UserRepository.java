@@ -5,15 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.t1.dkononov.tm.api.repository.IUserRepository;
 import ru.t1.dkononov.tm.enumerated.Role;
-import ru.t1.dkononov.tm.enumerated.Status;
-import ru.t1.dkononov.tm.model.Task;
 import ru.t1.dkononov.tm.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.UUID;
 
 public class UserRepository extends AbstractRepository<User> implements IUserRepository {
 
@@ -56,14 +52,14 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
                 getTableName()
         );
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,model.getId());
-            statement.setString(2,model.getLogin());
-            statement.setString(3,model.getPasswordHash());
-            statement.setString(4,model.getFirstName());
-            statement.setString(5,model.getMiddleName());
-            statement.setString(6,model.getLastName());
-            statement.setString(7,model.getEmail());
-            statement.setString(8,model.getRole().toString());
+            statement.setString(1, model.getId());
+            statement.setString(2, model.getLogin());
+            statement.setString(3, model.getPasswordHash());
+            statement.setString(4, model.getFirstName());
+            statement.setString(5, model.getMiddleName());
+            statement.setString(6, model.getLastName());
+            statement.setString(7, model.getEmail());
+            statement.setString(8, model.getRole().toString());
             statement.setBoolean(9, false);
             statement.executeUpdate();
         }
@@ -76,7 +72,7 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     public User findByLogin(@NotNull final String login) {
         @NotNull final String sql = String.format("SELECT * FROM %s WHERE login = ? LIMIT 1", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,login);
+            statement.setString(1, login);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             if (!rowSet.next()) return null;
             return fetch(rowSet);
@@ -89,7 +85,7 @@ public class UserRepository extends AbstractRepository<User> implements IUserRep
     public User findByEmail(@NotNull final String email) {
         @NotNull final String sql = String.format("SELECT * FROM %s WHERE email = ? LIMIT 1", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,email);
+            statement.setString(1, email);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             if (!rowSet.next()) return null;
             return fetch(rowSet);

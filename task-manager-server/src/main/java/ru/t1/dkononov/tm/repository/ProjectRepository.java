@@ -13,12 +13,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class ProjectRepository extends AbstractUserOwnedRepository<Project>
         implements IProjectRepository {
 
-    @NotNull final static String table = "tm.tm_project";
+    @NotNull
+    final static String table = "tm.tm_project";
 
     public ProjectRepository(@NotNull final Connection connection) {
         super(connection);
@@ -72,14 +72,14 @@ public final class ProjectRepository extends AbstractUserOwnedRepository<Project
     public Project add(@NotNull final Project project) {
         @NotNull final String sql = String.format(
                 "INSERT INTO %s (id,created,name,description,status,user_id)"
-                + "VALUES (?,?,?,?,?,?)",
+                        + "VALUES (?,?,?,?,?,?)",
                 getTableName()
         );
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, project.getId());
-            statement.setTimestamp(2,new Timestamp(project.getCreated().getTime()));
-            statement.setString(3,project.getName());
-            statement.setString(4,project.getDescription());
+            statement.setTimestamp(2, new Timestamp(project.getCreated().getTime()));
+            statement.setString(3, project.getName());
+            statement.setString(4, project.getDescription());
             statement.setString(5, Status.NOT_STARTED.name());
             statement.setString(6, project.getUserId());
             statement.executeUpdate();
@@ -104,9 +104,9 @@ public final class ProjectRepository extends AbstractUserOwnedRepository<Project
                 "UPDATE %s SET name = ?, description = ?, status = ? WHERE id = ?", getTableName()
         );
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,project.getName());
-            statement.setString(2,project.getDescription());
-            statement.setString(3,project.getStatus().toString());
+            statement.setString(1, project.getName());
+            statement.setString(2, project.getDescription());
+            statement.setString(3, project.getStatus().toString());
             statement.executeUpdate();
         }
         return project;

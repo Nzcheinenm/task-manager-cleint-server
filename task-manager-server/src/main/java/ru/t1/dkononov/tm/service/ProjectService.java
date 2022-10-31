@@ -17,7 +17,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-
 public final class ProjectService extends AbstractUserOwnedService<Project, IProjectRepository> implements IProjectService {
 
 
@@ -69,7 +68,7 @@ public final class ProjectService extends AbstractUserOwnedService<Project, IPro
         @NotNull final Connection connection = getConnection();
         try {
             @NotNull final IProjectRepository repository = getRepository(connection);
-            project = repository.add(userId,project);
+            project = repository.add(userId, project);
             connection.commit();
         } catch (@NotNull final Exception e) {
             connection.rollback();

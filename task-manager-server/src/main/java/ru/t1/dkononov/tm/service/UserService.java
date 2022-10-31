@@ -3,14 +3,15 @@ package ru.t1.dkononov.tm.service;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.t1.dkononov.tm.api.repository.*;
+import ru.t1.dkononov.tm.api.repository.IProjectRepository;
+import ru.t1.dkononov.tm.api.repository.ITaskRepository;
+import ru.t1.dkononov.tm.api.repository.IUserRepository;
 import ru.t1.dkononov.tm.api.services.IConnectionService;
 import ru.t1.dkononov.tm.api.services.IPropertyService;
 import ru.t1.dkononov.tm.api.services.IUserService;
 import ru.t1.dkononov.tm.enumerated.Role;
 import ru.t1.dkononov.tm.exception.AbstractException;
 import ru.t1.dkononov.tm.exception.field.*;
-import ru.t1.dkononov.tm.model.Project;
 import ru.t1.dkononov.tm.model.User;
 import ru.t1.dkononov.tm.repository.ProjectRepository;
 import ru.t1.dkononov.tm.repository.TaskRepository;
@@ -23,7 +24,8 @@ import java.util.List;
 public final class UserService extends AbstractService<User, IUserRepository> implements IUserService {
 
 
-    @NotNull final IPropertyService propertyService;
+    @NotNull
+    final IPropertyService propertyService;
 
     public UserService(
             @NotNull final IConnectionService connectionService,
@@ -149,7 +151,7 @@ public final class UserService extends AbstractService<User, IUserRepository> im
         try (@NotNull final Connection connection = getConnection()) {
             @NotNull final IUserRepository repository = getRepository(connection);
             @Nullable final User user = repository.findByLogin(login);
-            if (user == null) throw new  UserNotFoundException();
+            if (user == null) throw new UserNotFoundException();
             return user;
         }
     }

@@ -5,19 +5,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.t1.dkononov.tm.api.repository.ISessionRepository;
 import ru.t1.dkononov.tm.enumerated.Role;
-import ru.t1.dkononov.tm.enumerated.Status;
 import ru.t1.dkononov.tm.model.Session;
-import ru.t1.dkononov.tm.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 public final class SessionRepository extends AbstractUserOwnedRepository<Session> implements ISessionRepository {
 
-    @NotNull final static String table = "tm.tm_session";
+    @NotNull
+    final static String table = "tm.tm_session";
 
     public SessionRepository(@NotNull final Connection connection) {
         super(connection);
@@ -58,9 +56,9 @@ public final class SessionRepository extends AbstractUserOwnedRepository<Session
         );
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, model.getId());
-            statement.setString(2,model.getUserId());
-            statement.setTimestamp(3,new Timestamp(model.getDate().getTime()));
-            statement.setString(4,model.getRole().toString());
+            statement.setString(2, model.getUserId());
+            statement.setTimestamp(3, new Timestamp(model.getDate().getTime()));
+            statement.setString(4, model.getRole().toString());
             statement.executeUpdate();
         }
         return model;

@@ -4,7 +4,6 @@ import com.jcabi.manifests.Manifests;
 import lombok.Cleanup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.t1.dkononov.tm.api.services.IDatabaseProperty;
 import ru.t1.dkononov.tm.api.services.IPropertyService;
 
 import java.io.File;

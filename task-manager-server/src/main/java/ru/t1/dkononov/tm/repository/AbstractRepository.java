@@ -32,11 +32,11 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     protected String getSortType(@NotNull final Comparator comparator) {
         if (comparator == CreatedComparator.INSTANCE) return "created";
         else if (comparator == StatusComparator.INSTANCE) return "status";
-        else  return "name";
+        else return "name";
     }
 
     @NotNull
-    protected abstract  M fetch(@NotNull final ResultSet row);
+    protected abstract M fetch(@NotNull final ResultSet row);
 
     @NotNull
     @Override
@@ -49,7 +49,7 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
         @NotNull final List<M> result = new ArrayList<>();
         @NotNull final String sql = String.format("SELECT * FROM %s", getTableName());
         try (@NotNull final Statement statement = connection.createStatement();
-            @NotNull final ResultSet resultSet = statement.executeQuery(sql)) {
+             @NotNull final ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) result.add(fetch(resultSet));
         }
         return result;
@@ -60,7 +60,7 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     @SneakyThrows
     public List<M> findAll(@Nullable final Comparator<M> comparator) {
         @NotNull final List<M> result = new ArrayList<>();
-        @NotNull final String sql = String.format("SELECT * FROM %s ORDER BY %s", getTableName(),getSortType(comparator));
+        @NotNull final String sql = String.format("SELECT * FROM %s ORDER BY %s", getTableName(), getSortType(comparator));
         try (@NotNull final Statement statement = connection.createStatement();
              @NotNull final ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) result.add(fetch(resultSet));
@@ -71,11 +71,11 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     @Override
     @NotNull
     public Collection<M> add(@NotNull final Collection<M> models) {
-       @NotNull final List<M> result = new ArrayList<>();
-       for (M model : models) {
-           result.add(add(model));
-       }
-       return result;
+        @NotNull final List<M> result = new ArrayList<>();
+        for (M model : models) {
+            result.add(add(model));
+        }
+        return result;
     }
 
     @Override
@@ -104,7 +104,7 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     public M findById(@NotNull final String id) {
         @NotNull final String sql = String.format("SELECT * FROM %s WHERE id = ? LIMIT 1", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,id);
+            statement.setString(1, id);
             @NotNull final ResultSet rowSet = statement.executeQuery();
             if (!rowSet.next()) return null;
             return fetch(rowSet);
@@ -122,9 +122,9 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     @Override
     @SneakyThrows
     public M remove(@Nullable final M model) {
-        @NotNull final String sql = String.format("DELETE FROM %s WHERE id = ?",getTableName());
+        @NotNull final String sql = String.format("DELETE FROM %s WHERE id = ?", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,model.getId());
+            statement.setString(1, model.getId());
             statement.executeUpdate();
         }
         return model;
@@ -135,9 +135,9 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
     @SneakyThrows
     public M removeById(@NotNull final String id) {
         @NotNull final M model = findById(id);
-        @NotNull final String sql = String.format("DELETE FROM %s WHERE id = ?",getTableName());
+        @NotNull final String sql = String.format("DELETE FROM %s WHERE id = ?", getTableName());
         try (@NotNull final PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1,id);
+            statement.setString(1, id);
             statement.executeUpdate();
         }
         return model;
@@ -160,11 +160,11 @@ public abstract class AbstractRepository<M extends AbstractModel> implements IRe
 
     @SneakyThrows
     public long getCount() {
-        @NotNull final String query = String.format("SELECT COUNT(*) FROM %s",getTableName());
+        @NotNull final String query = String.format("SELECT COUNT(*) FROM %s", getTableName());
         try (@NotNull final Statement statement = connection.createStatement();
-            @NotNull final ResultSet resultSet = statement.executeQuery(query)) {
+             @NotNull final ResultSet resultSet = statement.executeQuery(query)) {
             resultSet.next();
-            return  resultSet.getLong("count");
+            return resultSet.getLong("count");
         }
     }
 
